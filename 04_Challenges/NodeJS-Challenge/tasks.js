@@ -96,4 +96,4 @@ startApp("fawaz Shohiebar")
 /* the help command to list all the possible commands */
 function help(){
   console.log(' The commands you can use are :\n quit \n exit \n hello \n help')
-}
+}     
