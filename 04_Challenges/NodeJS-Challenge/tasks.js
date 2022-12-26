@@ -37,6 +37,9 @@ function onDataReceived(text) {
   if (text === 'quit\n') {
     quit();
   }
+  else if(text==='exit\n'){
+    quit();
+  }
   else if(text === 'hello\n'){
     hello();
   }
@@ -79,4 +82,4 @@ function quit(){
 }
 
 // The following line starts the application
-startApp("Jad Sarout")
+startApp("fawaz Shohiebar")
