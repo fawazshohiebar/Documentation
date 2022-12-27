@@ -33,7 +33,9 @@ function startApp(name){
  * @param  {string} text data typed by the user
  * @returns {void}
  */
+ const listarray= ["Banana", "Orange", "Apple", "Mango"];
 function onDataReceived(text) {
+
   const myArray=text.split(" ");
   if (myArray[0] === 'quit\n') {
     quit();
@@ -50,6 +52,18 @@ function onDataReceived(text) {
   else if (myArray[0] ==='help\n'){
     help();
   }
+else if(text==='list\n'){
+ list();
+}
+else if (myArray[0]==='add'){
+  add(myArray[1]);
+}
+else if (text ==='remove\n')
+{
+  remove();
+}  else if(myArray[0] === 'remove'){
+  removeby(myArray[1]);
+}
 
   else{
     unknownCommand(myArray[0]);
@@ -101,3 +115,23 @@ startApp("fawaz Shohiebar")
 function help(){
   console.log(' The commands you can use are :\n quit \n exit \n hello \n help')
 }     
+
+/*
+sending lists 
+*/ 
+function list(){
+ 
+console.log(listarray);
+}
+function add(c){
+  listarray.push(`${c.trim()}`);
+
+}
+
+
+function remove(){
+  listarray.pop();
+}
+function removeby(c){
+  listarray.splice(c,1);
+}
