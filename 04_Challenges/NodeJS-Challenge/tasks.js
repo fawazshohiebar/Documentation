@@ -133,5 +133,8 @@ function remove(){
   listarray.pop();
 }
 function removeby(c){
+  if (c >listarray.length -1){
+    console.log("you have enterd a number that is greater than the array list ")
+  }else{
   listarray.splice(c,1);
-}
+}}
