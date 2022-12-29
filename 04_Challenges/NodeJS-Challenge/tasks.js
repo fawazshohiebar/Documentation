@@ -10,8 +10,11 @@
  * @returns {void}
  */
 function startApp(name){
+ 
   process.stdin.resume();
   process.stdin.setEncoding('utf8');
+
+ 
   process.stdin.on('data', onDataReceived);
   console.log(`Welcome to ${name}'s application!`)
   console.log("--------------------")
@@ -33,7 +36,17 @@ function startApp(name){
  * @param  {string} text data typed by the user
  * @returns {void}
  */
+ const fs = require('fs');
+ 
  const listarray= [];
+ try {
+  listarray = JSON.parse(fs.readFileSync('database.json'));
+} catch (error) {
+  console.error(`Error loading data from disk: ${error.message}`);
+}
+console.log(listarray); 
+
+
 function onDataReceived(text) {
 
   const myArray=text.split(" ");
@@ -110,6 +123,7 @@ function helloo(){
  */
 function quit(){
   console.log('Quitting now, goodbye!')
+  process.on('exit', saveData);
   process.exit();
 }
 
@@ -187,4 +201,9 @@ function edit(taskNumber, newText) {
   console.log(`Task ${taskNumber} edited.`);
 }
 
+
+function saveData() {
+  fs.writeFileSync('database.json', JSON.stringify(listarray));
+  console.log('Data saved to disk.');
+}
 
