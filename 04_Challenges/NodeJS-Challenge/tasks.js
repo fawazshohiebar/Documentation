@@ -33,7 +33,7 @@ function startApp(name){
  * @param  {string} text data typed by the user
  * @returns {void}
  */
- const listarray= ["Banana", "Orange", "Apple", "Mango"];
+ const listarray= [];
 function onDataReceived(text) {
 
   const myArray=text.split(" ");
@@ -63,8 +63,16 @@ else if (text ==='remove\n')
   remove();
 }  else if(myArray[0] === 'remove'){
   removeby(myArray[1]);
+}else if(myArray[0]==='check'){
+  check(myArray[1])
 }
+else if(myArray[0]==='uncheck'){
+  uncheck(myArray[1])
+}
+else if(myArray[0]=='edit'){
+  edit(myArray[1],myArray[2])
 
+}
   else{
     unknownCommand(myArray[0]);
   }
@@ -121,10 +129,12 @@ sending lists
 */ 
 function list(){
  
-console.log(listarray);
+  listarray.forEach((task, i) => {
+    console.log(`${i + 1}: [${task.done ? '✓' : ' '}] ${task.task}`);
+});
 }
 function add(c){
-  listarray.push(`${c.trim()}`);
+  listarray.push({task:`${c.trim()}`,done:false});
 
 }
 
@@ -138,3 +148,43 @@ function removeby(c){
   }else{
   listarray.splice(c,1);
 }}
+
+function check(taskNumber) {
+  if (taskNumber < 1 || taskNumber > listarray.length) {
+      console.error(`Error: Task number ${taskNumber} does not exist.`);
+      return;
+  }
+  listarray[taskNumber - 1].done = true;
+  console.log(`Task ${taskNumber} marked as done.`);
+}
+
+function uncheck(taskNumber){
+  if (taskNumber < 1 || taskNumber > listarray.length) {
+    console.error(`Error: Task number ${taskNumber} does not exist.`);
+    return;
+}
+listarray[taskNumber - 1].done = false;
+console.log(`Task ${taskNumber} marked as done.`);
+}
+
+
+function edit(taskNumber, newText) {
+  if (!newText) {
+      console.error("Error: No new text provided.");
+      return;
+  }
+
+  if (!taskNumber) {
+      taskNumber = listarray.length;  // Edit the last task by default.
+  }
+
+  if (taskNumber < 1 || taskNumber > listarray.length) {
+      console.error(`Error: Task number ${taskNumber} does not exist.`);
+      return;
+  }
+
+  listarray[taskNumber - 1].task = ` ${newText.trim()}`;
+  console.log(`Task ${taskNumber} edited.`);
+}
+
+
