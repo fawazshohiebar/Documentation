@@ -9,12 +9,28 @@
  * @param  {string} name the name of the app
  * @returns {void}
  */
+ const fs = require('fs');
+ let listarray= [];
+let readfile='database.json';
+
+
+if(process.argv.length>2){
+  readfile=process.argv[2];
+}
+
 function startApp(name){
  
   process.stdin.resume();
-  process.stdin.setEncoding('utf8');
 
- 
+  try {
+    listarray = JSON.parse(fs.readFileSync(readfile));
+  } catch (error) {
+    console.error(`Error loading data from disk: ${error.message}`);
+  }
+  console.log(listarray); 
+  
+
+  process.stdin.setEncoding('utf8'); 
   process.stdin.on('data', onDataReceived);
   console.log(`Welcome to ${name}'s application!`)
   console.log("--------------------")
@@ -36,15 +52,10 @@ function startApp(name){
  * @param  {string} text data typed by the user
  * @returns {void}
  */
- const fs = require('fs');
  
- const listarray= [];
- try {
-  listarray = JSON.parse(fs.readFileSync('database.json'));
-} catch (error) {
-  console.error(`Error loading data from disk: ${error.message}`);
-}
-console.log(listarray); 
+ 
+
+ 
 
 
 function onDataReceived(text) {
@@ -203,7 +214,7 @@ function edit(taskNumber, newText) {
 
 
 function saveData() {
-  fs.writeFileSync('database.json', JSON.stringify(listarray));
+  fs.writeFileSync(readfile, JSON.stringify(listarray));
   console.log('Data saved to disk.');
 }
 
