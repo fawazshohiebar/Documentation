@@ -16,7 +16,7 @@ app.get('/movies/read',(req,res)=>{
 
 
 
-app.get('/movies/create',(req,res)=>{
+app.post('/movies/create',(req,res)=>{
     const {title,year,rating}=req.query;
 
 if(!title||!year||year.length<4||isNaN(year))
@@ -41,7 +41,7 @@ else{
 // try the update code by this fomula
 // http://localhost:3000/movies/update/1/?title=halabel5amees
 
-app.get('/movies/update/:id',(req,res)=>{
+app.put('/movies/update/:id',(req,res)=>{
    const id=req.params.id 
  const{title,year,rating}=req.query;
  if(title){
@@ -64,7 +64,7 @@ if (rating){
 
 
 
-app.get('/movies/delete/:id',(req,res)=>{
+app.delete('/movies/delete/:id',(req,res)=>{
     const id =req.params.id
     movies.splice(id-1,1);
     res.send(movies)
