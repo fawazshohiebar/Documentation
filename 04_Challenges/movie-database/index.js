@@ -8,10 +8,14 @@ const movies= [ { title: 'Jaws', year: 1975, rating: 8 }, { title: 'Avatar', yea
 app.get('/movies/read',(req,res)=>{
     res.send({status:200,data:movies})
 })
-
+// listarray.splice(c,1);
 //use this way to test the create 
 //curl "http://localhost:3000/movies/add?title=The%20Matrix&year=1999&rating=8.7"
 //if(!title||!year||year.length<4||typeof year!='number'
+//http://localhost:3000/movies/create/?title=20Matrix&year=1999&rating=8.7
+
+
+
 app.get('/movies/create',(req,res)=>{
     const {title,year,rating}=req.query;
 
@@ -32,21 +36,42 @@ else{
     movies.push(newMovie);
     res.send(movies);
 }
+})
+
+// try the update code by this fomula
+// http://localhost:3000/movies/update/1/?title=halabel5amees
+
+app.get('/movies/update/:id',(req,res)=>{
+   const id=req.params.id 
+ const{title,year,rating}=req.query;
+ if(title){
+   movies[id-1].title=title
+   res.send(movies)
+}
+if(year){
+    movies[id-1].year=year
+   res.send(movies)
+
+}
+if (rating){
+    movies[id-1].rating=rating
+    res.send(movies)
+}
+
+}
+)
 
 
 
 
+app.get('/movies/delete/:id',(req,res)=>{
+    const id =req.params.id
+    movies.splice(id-1,1);
+    res.send(movies)
 })
 
 
 
-
-app.get('/movies/update',(req,res)=>{
-    res.send({status:200,data:movies})
-})
-app.get('/movies/delete',(req,res)=>{
-    res.send({status:200,data:movies})
-})
 app.get('/movies/read/by-date',(req,res)=>{
   
     const sortedMovies = movies.sort((a, b) => {
