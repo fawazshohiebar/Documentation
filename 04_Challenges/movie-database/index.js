@@ -8,9 +8,39 @@ const movies= [ { title: 'Jaws', year: 1975, rating: 8 }, { title: 'Avatar', yea
 app.get('/movies/read',(req,res)=>{
     res.send({status:200,data:movies})
 })
+
+//use this way to test the create 
+//curl "http://localhost:3000/movies/add?title=The%20Matrix&year=1999&rating=8.7"
+//if(!title||!year||year.length<4||typeof year!='number'
 app.get('/movies/create',(req,res)=>{
-    res.send({status:200,data:movies})
+    const {title,year,rating}=req.query;
+
+if(!title||!year||year.length<4||isNaN(year))
+{res.send({status:403, error:true, message:'you cannot create a movie without providing a title and a year'})
+
+}
+else if(!rating){
+    const rating=4
+    const newMovie={title,year,rating};
+    
+    movies.push(newMovie);
+    res.send(movies);
+}
+else{
+    const newMovie={title,year,rating};
+    
+    movies.push(newMovie);
+    res.send(movies);
+}
+
+
+
+
 })
+
+
+
+
 app.get('/movies/update',(req,res)=>{
     res.send({status:200,data:movies})
 })
